@@ -6,6 +6,22 @@ The project uses Docker to provide a consistent development. Follow the steps be
 
 <img width="1919" height="949" alt="image" src="https://github.com/user-attachments/assets/d6f7dfce-4f46-4f84-a91a-6919a86aa3c0" />
 
+## Sample Questions
+
+Here are three sample questions to demonstrate the chatbot's capabilities as a Brazilian cuisine expert, along with their expected answer snippets.
+
+### 1. Question: What are the main ingredients of a traditional "feijoada"?
+
+Expected Answer: The response from the LLM is expected to be a fluent, well-structured text that correctly identifies the main ingredients of a traditional feijoada. It should mention the core components, such as black beans, and various types of pork and beef. The answer may also include additional details, such as serving suggestions (like rice, farofa, and collard greens) and a brief description of the dish's cultural significance in Brazil.
+
+### 2. What are the key differences between a "moqueca capixaba" and a "moqueca baiana"?
+
+Expected Answer: The response should be a concise and informative comparison of the two regional variations of moqueca. It must correctly identify the primary differentiating factors, such as the use of urucum oil and lack of dendê oil in the moqueca capixaba, versus the use of dendê oil and coconut milk in the moqueca baiana. The answer should also briefly describe the flavor profile and appearance of each version.
+
+### 3. Question: What is the cultural significance of "brigadeiro" in Brazilian celebrations?
+
+Expected Answer: The response should explain the role of brigadeiro as a staple dessert in Brazilian celebrations. It should mention its presence at children's birthday parties and other festive gatherings, and its simple preparation (condensed milk, cocoa powder, butter). The answer may also touch on its widespread popularity and how it's often considered a symbol of joy and togetherness.
+
 ## Prerequisites
 
 Make sure you have [Docker](https://www.docker.com/get-started) and [Docker Compose](https://docs.docker.com/compose/install/) installed on your machine.
