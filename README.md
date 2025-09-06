@@ -56,7 +56,7 @@ The application will be accessible at `http://localhost:8000`.
 
 * `docker compose down`: Stops and removes all containers, networks, and volumes.
 
-* `docker compose run --rm react-app npm install`: Installs npm dependencies. The `--rm` flag removes the temporary container after the command completes.
+* `docker compose run --rm react-app npm install`: Installs npm dependencies.
 
 * `docker compose logs -f`: Follows the logs of all running services.
 
