@@ -1,18 +1,18 @@
 interface ChatErrorProps {
-    error: string | null;
+  error: string | null;
 }
 
 const ChatError = ({ error }: ChatErrorProps) => {
 
-     if (!error) {
-        return null;
-    }
+  if (!error) {
+    return null;
+  }
 
-    return (
-        <div className="chat-error">
-          {error}
-        </div>
-    )
+  return (
+    <div className="chat-error">
+      {error}
+    </div>
+  )
 }
 
 export default ChatError;

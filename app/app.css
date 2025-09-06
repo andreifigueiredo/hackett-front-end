@@ -1,4 +1,5 @@
-;@import "tailwindcss";
+;
+@import "tailwindcss";
 
 html,
 body {
@@ -7,20 +8,32 @@ body {
   }
 }
 
+.home {
+  min-height: 100vh;
+}
+
 .chat-box {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 92vh;
   max-width: 600px;
   margin: 0 auto;
-  border: 1px solid #ccc;
+  border: 1px solid;
   border-radius: 8px;
   overflow: hidden;
 }
 
+.chat-header {
+  padding: 16px;
+  color: #d1d5db;
+  text-align: left;
+  font-size: 20px;
+  font-weight: bold;
+}
+
 .chat-display {
   flex-grow: 1;
-  padding: 10px; 
+  padding: 10px;
   overflow-y: auto;
 }
 
@@ -38,13 +51,13 @@ body {
 
 .chat-error {
   color: red;
-  text-align: center; 
+  text-align: center;
   padding: 5px;
 }
 
 .chat-form {
-  display: flex; 
-  padding: 10px; 
+  display: flex;
+  padding: 10px;
   border-top: 1px solid #ccc;
 }
 

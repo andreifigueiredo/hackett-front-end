@@ -1,7 +1,7 @@
+import ChatHeader from "~/components/ChatHeader";
 import ChatBox from "../components/ChatBox";
-import type { Route } from "./+types/home";
 
-export function meta({}: Route.MetaArgs) {
+export function meta() {
   return [
     { title: "Chat Box" },
     { name: "description", content: "Welcome to Chat Box!" },
@@ -9,5 +9,10 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-  return <ChatBox />;
+  return (
+    <div className="home">
+      <ChatHeader />
+      <ChatBox />
+    </div>
+  );
 }

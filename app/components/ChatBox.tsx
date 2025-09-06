@@ -1,9 +1,9 @@
 import { useState, useRef } from 'react';
-import { fetchChatResponse } from '../services/chat.service';
 import ChatMessageDisplay from './ChatDisplay';
 import type { ChatMessage } from '../interfaces';
 import ChatForm from './ChatForm';
 import ChatError from './ChatError';
+import { fetchChatStream } from '../services/chat.service';
 
 const ChatBox = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -14,17 +14,23 @@ const ChatBox = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   const handleSendMessage = async () => {
+    if (!input.trim()) {
+      return;
+    }
+
     const userMessage: ChatMessage = {
       id: Date.now(),
       sender: 'user',
       text: input,
     };
 
-    setMessages((prevMessages) => [...prevMessages, userMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
     setError(null);
@@ -35,19 +41,33 @@ const ChatBox = () => {
       text: 'Typing...',
     };
 
-    setMessages((prevMessages) => [...prevMessages, typingMessage]);
-    scrollToBottom();
+    setMessages((prev) => [...prev, typingMessage]);
 
     try {
-      const botReply = await fetchChatResponse(input);
-      setMessages((prevMessages) =>
-        prevMessages.map((msg) =>
-          msg.id === typingMessage.id ? { ...msg, text: botReply } : msg
-        )
+      await fetchChatStream(input, (token) => {
+        setMessages((prev) =>
+          prev.map((msg) => {
+            if (msg.id !== typingMessage.id) {
+              return msg;
+            }
+
+            if (msg.text === 'Typing...') {
+              return { ...msg, text: token };
+            }
+
+            return { ...msg, text: msg.text + token };
+          })
+        );
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError('Unexpected error, please try again');
+      }
+      setMessages((prev) =>
+        prev.filter((msg) => msg.id !== typingMessage.id)
       );
-    } catch (err: any) {
-      setError(err.message);
-      setMessages((prevMessages) => prevMessages.filter((msg) => msg.id !== typingMessage.id));
     } finally {
       setIsLoading(false);
     }
@@ -55,10 +75,17 @@ const ChatBox = () => {
 
   return (
     <div className="chat-box">
-      <ChatMessageDisplay messages={messages} messagesEndRef={messagesEndRef} scrollToBottom={scrollToBottom} />
-
-      <ChatForm handleSendMessage={handleSendMessage} input={input} setInput={setInput} isLoading={isLoading} />
-      
+      <ChatMessageDisplay
+        messages={messages}
+        messagesEndRef={messagesEndRef}
+        scrollToBottom={scrollToBottom}
+      />
+      <ChatForm
+        handleSendMessage={handleSendMessage}
+        input={input}
+        setInput={setInput}
+        isLoading={isLoading}
+      />
       <ChatError error={error} />
     </div>
   );

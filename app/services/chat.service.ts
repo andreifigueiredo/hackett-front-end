@@ -1,30 +1,63 @@
-export const fetchChatResponse = async (message: string): Promise<string> => {
+export const fetchChatStream = async (
+  message: string,
+  onToken: (token: string) => void
+): Promise<void> => {
   if (!message || message.trim() === '') {
     throw new Error('Message cannot be empty.');
   }
 
-  const API_BASE_URL = import.meta.env.VITE_APP_API_URL || 'http://localhost:3000';
+  const API_BASE_URL =
+    import.meta.env.VITE_APP_API_URL || 'http://localhost:3000';
 
   try {
     const response = await fetch(`${API_BASE_URL}/chat`, {
       method: 'POST',
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ message }),
     });
 
-    if (!response.ok) {
-      if (response.status === 400) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Bad Request');
-      }
+    if (!response.ok || !response.body) {
       throw new Error('Connection lost, please retry.');
     }
 
-    const data = await response.json();
-    return data.reply;
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let partial = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) {
+        return;
+      }
+
+      partial += decoder.decode(value, { stream: true });
+
+      const lines = partial.split('\n');
+      partial = lines.pop() || '';
+
+      for (const line of lines) {
+        if (!line.startsWith('data:')) {
+          continue;
+        }
+
+        const raw = line.slice(5).trim();
+
+        if (raw === '[DONE]') {
+          continue;
+        }
+
+        if (raw === '[ERROR]') {
+          throw new Error('Stream failed. Please try again.');
+        }
+
+        try {
+          const token = JSON.parse(raw);
+          onToken(token);
+        } catch {
+          console.warn('Invalid SSE token:', raw);
+        }
+      }
+    }
   } catch (error) {
     if (error instanceof Error) {
       throw error;
