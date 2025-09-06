@@ -1,17 +1,23 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import type { ChatMessage } from "../interfaces";
 import ReactMarkdown from 'react-markdown';
 
 interface ChatMessageDisplayProps {
   messages: ChatMessage[];
-  messagesEndRef: React.RefObject<HTMLDivElement | null>;
-  scrollToBottom: () => void
 }
 
-const ChatMessageDisplay = ({ messages, messagesEndRef, scrollToBottom }: ChatMessageDisplayProps) => {
+const ChatMessageDisplay = ({ messages }: ChatMessageDisplayProps) => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <div className="chat-display">
@@ -26,8 +32,8 @@ const ChatMessageDisplay = ({ messages, messagesEndRef, scrollToBottom }: ChatMe
           <div
             className="chat-display-message-content"
             style={{
-              backgroundColor: message.sender === 'user' ? '#007bff' : '#e5e5e5',
-              color: message.sender === 'user' ? 'white' : 'black',
+              backgroundColor: message.sender === 'user' ? '#9c9c9c' : 'transparent',
+              maxWidth: "100%",
             }}
           >
             <ReactMarkdown>{message.text}</ReactMarkdown>

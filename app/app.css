@@ -1,6 +1,7 @@
 ;
 @import "tailwindcss";
 
+
 html,
 body {
   @media (prefers-color-scheme: dark) {
@@ -25,7 +26,6 @@ body {
 
 .chat-header {
   padding: 16px;
-  color: #d1d5db;
   text-align: left;
   font-size: 20px;
   font-weight: bold;
@@ -58,13 +58,13 @@ body {
 .chat-form {
   display: flex;
   padding: 10px;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid;
 }
 
 .chat-form-input {
   flex-grow: 1;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid;
   border-radius: 20px;
   margin-right: 10px;
 }
@@ -73,5 +73,4 @@ body {
   padding: 10px 20px;
   border: none;
   border-radius: 20px;
-  color: white;
 }

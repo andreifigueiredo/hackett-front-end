@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import ChatMessageDisplay from './ChatDisplay';
 import type { ChatMessage } from '../interfaces';
 import ChatForm from './ChatForm';
@@ -10,14 +10,6 @@ const ChatBox = () => {
   const [input, setInput] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  const scrollToBottom = () => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   const handleSendMessage = async () => {
     if (!input.trim()) {
@@ -77,8 +69,6 @@ const ChatBox = () => {
     <div className="chat-box">
       <ChatMessageDisplay
         messages={messages}
-        messagesEndRef={messagesEndRef}
-        scrollToBottom={scrollToBottom}
       />
       <ChatForm
         handleSendMessage={handleSendMessage}

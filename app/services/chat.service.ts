@@ -16,6 +16,10 @@ export const fetchChatStream = async (
       body: JSON.stringify({ message }),
     });
 
+    if (response.status === 429) {
+      throw new Error('You are making too many questions. Please try again in a moment.');
+    }
+
     if (!response.ok || !response.body) {
       throw new Error('Connection lost, please retry.');
     }

@@ -47,7 +47,8 @@ const ChatForm = ({ handleSendMessage, input, setInput, isLoading }: ChatFormPro
         disabled={isLoading || !input.trim()}
         className='chat-form-button'
         style={{
-          backgroundColor: (isLoading || !input.trim()) ? '#aaa' : '#007bff',
+          backgroundColor: (isLoading || !input.trim()) ? '#7b7b7b' : '#9c9c9c',
+          color: (isLoading || !input.trim()) ? 'white' : 'black',
           cursor: (isLoading || !input.trim()) ? 'not-allowed' : 'pointer'
         }}
       >
