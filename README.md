@@ -1,87 +1,67 @@
-# Welcome to React Router!
+# About Project
 
-A modern, production-ready template for building full-stack React applications using React Router.
+This project is a chat application that consumes the [hackett-back-end](https://github.com/andreifigueiredo/hackett-back-end) project. It has a basic behavior of scrolling to the end whenever there is a new message and also a disable on the button when the input is empty. The default URL for the `hackett-back-end` is set to `http://localhost:3000`, but you can change this in your `.env` file. For an example, see the `.env.example` file.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+The project uses Docker to provide a consistent development. Follow the steps below to get started.
 
-## Features
+<img width="1919" height="949" alt="image" src="https://github.com/user-attachments/assets/d6f7dfce-4f46-4f84-a91a-6919a86aa3c0" />
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+## Prerequisites
 
-## Getting Started
+Make sure you have [Docker](https://www.docker.com/get-started) and [Docker Compose](https://docs.docker.com/compose/install/) installed on your machine.
 
-### Installation
+## Setup and Running (with Docker)
 
-Install the dependencies:
+### 1. Environment Variables
 
-```bash
+Create a file named `.env` in the root of the project. A sample file named `.env.example` should be available to guide you.
+
+### 2. Install Dependencies
+
+Install the project's dependencies using npm within the `react-app` service.
+
+```Bash
+docker compose run --rm react-app npm install
+```
+
+### 3. Start the Development Server
+
+Start all services in detached mode. This will build the Docker images and run the application. The `react-app` service is configured to restart automatically on changes and sync your local code with the container.
+
+```Bash
+docker compose up -d
+```
+
+The application will be accessible at `http://localhost:8000`.
+
+## Key Commands
+
+* `docker compose up -d`: Starts the development server in the background.
+
+* `docker compose down`: Stops and removes all containers, networks, and volumes.
+
+* `docker compose run --rm react-app npm install`: Installs npm dependencies. The `--rm` flag removes the temporary container after the command completes.
+
+* `docker compose logs -f`: Follows the logs of all running services.
+
+## Alternative Setup (Without Docker)
+
+If you prefer to run the project without Docker, you can do so by following these steps.
+
+### Prerequisites
+
+Make sure you have [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed on your machine.
+
+### 1. Install Dependencies
+
+Navigate to the project directory and install the dependencies.
+
+```Bash
 npm install
 ```
 
-### Development
+### 2. Start the Development Server
 
-Start the development server with HMR:
-
-```bash
+```Bash
 npm run dev
 ```
-
-Your application will be available at `http://localhost:5173`.
-
-## Building for Production
-
-Create a production build:
-
-```bash
-npm run build
-```
-
-## Deployment
-
-### Docker Deployment
-
-To build and run using Docker:
-
-```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
-```
-
-The containerized application can be deployed to any platform that supports Docker, including:
-
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
----
-
-Built with ❤️ using React Router.
